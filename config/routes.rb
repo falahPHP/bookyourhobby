@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get '/dashboard', to:'users#dashboard' # das ist das dashboard_path
+  post '/users/edit', to:'users#update'
   root 'pages#home'
 
   devise_for :users, 
