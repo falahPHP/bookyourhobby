@@ -79,7 +79,10 @@ class GigsController < ApplicationController
       end
     end
 
+
+  
   def show
+    @categories = Category.all
   end
 
 
