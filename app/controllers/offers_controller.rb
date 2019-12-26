@@ -11,7 +11,7 @@ class OffersController < ApplicationController
         end
 
         if Offer.exists?(user_id: current_user.id, request_id: offer_params[:request_id])
-            return request.referrer, alert: "You can make only one offer at the moment"
+            return redirect_to request.referrer, alert: "You can make only one offer at the moment"
         end
 
         @offer = current_user.offers.build(offer_params)
@@ -30,6 +30,7 @@ class OffersController < ApplicationController
 
             if charge(@offer.request, @offer)
                 flash[:notice] = "Accepted..."
+                #redirect_to buying_orders_path
                 return redirect_to buying_orders_path
             else
                 flash[:alert] = "cannot create your order"
