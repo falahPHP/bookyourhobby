@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_26_150312) do
+ActiveRecord::Schema.define(version: 2020_03_24_183858) do
 
   create_table "action_text_rich_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -119,6 +119,21 @@ ActiveRecord::Schema.define(version: 2019_12_26_150312) do
     t.index ["user_id"], name: "index_requests_on_user_id"
   end
 
+  create_table "reviews", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.text "review"
+    t.integer "stars", default: 1
+    t.bigint "order_id", null: false
+    t.bigint "gig_id"
+    t.bigint "buyer_id"
+    t.bigint "seller_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buyer_id"], name: "index_reviews_on_buyer_id"
+    t.index ["gig_id"], name: "index_reviews_on_gig_id"
+    t.index ["order_id"], name: "index_reviews_on_order_id"
+    t.index ["seller_id"], name: "index_reviews_on_seller_id"
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -151,4 +166,8 @@ ActiveRecord::Schema.define(version: 2019_12_26_150312) do
   add_foreign_key "pricings", "gigs"
   add_foreign_key "requests", "categories"
   add_foreign_key "requests", "users"
+  add_foreign_key "reviews", "gigs"
+  add_foreign_key "reviews", "orders"
+  add_foreign_key "reviews", "users", column: "buyer_id"
+  add_foreign_key "reviews", "users", column: "seller_id"
 end
